@@ -17,7 +17,11 @@ class LLMService:
             "messages": [
                 {"role": "system", "content": "You are a helpful NovrinTech AI assistant."},
                 {"role": "user", "content": message}
-            ]
+            ],
+            "temperature": 0.7,
+            "max_tokens": 1024,
+            "top_p": 1,
+            "stream": False
         }
 
         try:
