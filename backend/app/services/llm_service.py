@@ -13,7 +13,7 @@ class LLMService:
         }
         
         payload = {
-            "model": "llama3-8b-8192",
+            "model": "llama-3.1-8b-instant",  # Updated to supported model
             "messages": [
                 {"role": "system", "content": "You are a helpful NovrinTech AI assistant."},
                 {"role": "user", "content": message}
