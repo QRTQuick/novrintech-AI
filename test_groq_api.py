@@ -1,9 +1,11 @@
 import requests
 import json
+import os
 
 # Test Groq API directly
 def test_groq_api():
-    api_key = "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"
+    # Use environment variable or prompt for API key
+    api_key = os.getenv("GROQ_API_KEY") or input("Enter your Groq API key: ")
     api_url = "https://api.groq.com/openai/v1/chat/completions"
     
     headers = {
