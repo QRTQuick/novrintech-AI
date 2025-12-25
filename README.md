@@ -23,13 +23,55 @@ FastAPI backend for AI assistant using Groq API with CORS support and keep-alive
 2. **Configure environment:**
    ```bash
    cp backend/.env.example backend/.env
-   # Edit backend/.env and add your actual Groq API key
+   # Edit backend/.env and add your actual Groq API key and backend URL
    ```
 
 3. **Run the server:**
    ```bash
    uvicorn app.main:app --reload
    ```
+
+## Deployment on Render
+
+### Render Configuration
+
+**Root Directory:** `backend`
+
+**Build Command:** 
+```bash
+pip install -r requirements.txt
+```
+
+**Start Command:**
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+### Environment Variables on Render
+
+Set these in your Render dashboard:
+
+1. **GROQ_API_KEY** = `your_actual_groq_api_key_here`
+2. **GROQ_API_URL** = `https://api.groq.com/openai/v1/chat/completions`
+3. **BACKEND_URL** = `https://your-app-name.onrender.com` (replace with your actual Render URL)
+
+### Auto-Deploy Setup
+
+- Render will auto-deploy when you push changes to the `backend/` directory
+- The keep-alive system will ping your Render URL every 2 seconds to prevent sleeping
+
+## Environment Variables
+
+Edit `backend/.env` with your settings:
+
+```env
+GROQ_API_KEY=your_actual_groq_api_key_here
+GROQ_API_URL=https://api.groq.com/openai/v1/chat/completions
+BACKEND_URL=https://your-app-name.onrender.com
+```
+
+- For **local development**: `BACKEND_URL=http://127.0.0.1:8000`
+- For **Render deployment**: `BACKEND_URL=https://your-app-name.onrender.com`
 
 ## API Endpoints
 

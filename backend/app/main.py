@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.chat import router as chat_router
 from app.api.health import router as health_router
+from app.config import settings
 import asyncio
 import httpx
 
@@ -26,11 +27,15 @@ app.include_router(health_router, prefix="/api")
 
 # Keep-alive task
 async def keep_alive_task():
-    """Send keep-alive requests every 2 seconds"""
+    """Send keep-alive requests every 2 seconds to your backend URL"""
+    keepalive_url = f"{settings.BACKEND_URL}/api/keepalive"
+    print(f"Keep-alive will ping: {keepalive_url}")
+    
     while True:
         try:
             async with httpx.AsyncClient() as client:
-                await client.get("http://127.0.0.1:8000/api/keepalive", timeout=5.0)
+                response = await client.get(keepalive_url, timeout=5.0)
+                print(f"Keep-alive ping successful: {response.status_code}")
         except Exception as e:
             print(f"Keep-alive ping failed: {e}")
         
@@ -45,5 +50,5 @@ async def startup_event():
 def root():
     return {
         "message": "Welcome to NovrinTech AI Backend", 
-        "features": ["CORS enabled", "Keep-alive every 2 seconds"]
+        "features": ["CORS enabled", f"Keep-alive every 2 seconds to {settings.BACKEND_URL}"]
     }
